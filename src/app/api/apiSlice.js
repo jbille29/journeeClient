@@ -13,6 +13,7 @@ export const apiSlice = createApi({
       return headers;
     },
   }),
+  tagTypes: ['Journal'], // Define the tag for invalidation
   endpoints: (builder) => ({
     // Authentication Endpoints
     login: builder.mutation({
@@ -33,9 +34,11 @@ export const apiSlice = createApi({
     // Journals Endpoints
     getJournals: builder.query({
       query: () => '/journals',
+      providesTags: ['Journal'],
     }),
     getJournalById: builder.query({
       query: (id) => `/journals/${id}`,
+      providesTags: ['Journal'],
     }),
     createJournal: builder.mutation({
       query: (newJournal) => ({
@@ -43,6 +46,7 @@ export const apiSlice = createApi({
         method: 'POST',
         body: newJournal,
       }),
+      invalidatesTags: ['Journal'],
     }),
     updateJournal: builder.mutation({
       query: ({ id, ...patch }) => ({
@@ -50,12 +54,14 @@ export const apiSlice = createApi({
         method: 'PUT',
         body: patch,
       }),
+      invalidatesTags: ['Journal'],
     }),
     deleteJournal: builder.mutation({
       query: (id) => ({
         url: `/journals/${id}`,
         method: 'DELETE',
       }),
+      invalidatesTags: ['Journal'],
     }),
 
     // Entries Endpoints

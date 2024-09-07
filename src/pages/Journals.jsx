@@ -17,7 +17,6 @@ const Journal = () => {
   const openModal = () => setIsModalOpen(true);
 
   const handleModalSubmit = async (journalData) => {
-    setNewJournal(journalData);
     try {
       await createJournal(journalData);
       closeModal();

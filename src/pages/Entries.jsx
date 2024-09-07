@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { FaPlus, FaFilter, FaSearch } from 'react-icons/fa';
+// Entries.jsx
+import React from 'react';
+import { FaPlus, FaSearch } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
+import EntryCard from '../components/EntryCard'; // Import EntryCard component
 import './Entries.css';
 
 const Entries = () => {
   const navigate = useNavigate();
 
-  // Example userId and journalId for demonstration purposes
   const userId = '123'; // Replace with actual userId
   const journalId = 'abc'; // Replace with actual journalId
   const entries = [
@@ -33,7 +33,6 @@ const Entries = () => {
       createdDate: '2024-08-22',
       wordCount: 175,
     },
-    // Add more entries as needed
   ];
 
   const handleAddEntryClick = () => {
@@ -49,18 +48,12 @@ const Entries = () => {
 
         <div className='journal-grid'>
           {entries.map((entry) => (
-            <Link
-              to={`/${userId}/${journalId}/${entry.entryId}`}
-              className='journal-card'
-              key={entry.entryId}
-            >
-              <h3 className='journal-title'>{entry.title}</h3>
-              <div className='journal-meta'>
-                <p className='journal-date'><strong>Last updated: </strong>{entry.createdDate}</p>
-                <p className='journal-entries'><strong>Word Count: </strong>{entry.wordCount}</p>
-              </div>
-              <p className='journals-entry-preview'>{entry.content}</p>
-            </Link>
+            <EntryCard 
+              key={entry.entryId} 
+              entry={entry} 
+              userId={userId} 
+              journalId={journalId} 
+            />
           ))}
         </div>
       </main>
@@ -70,22 +63,18 @@ const Entries = () => {
           <FaPlus /> Add Entry
         </button>
         <div className='journals-search'>
-            <div className='journals-search-bar'>
-              <input
-                type='text'
-                className='journals-footer-input'
-                placeholder='Search entries...'
-              />
-              <button className='journals-search-btn'>
-                <FaSearch />
-              </button>
-            </div>
-            <button className='journals-footer-btn'>
-              <FaFilter /> Filter
+          <div className='journals-search-bar'>
+            <input
+              type='text'
+              className='journals-footer-input'
+              placeholder='Search entries...'
+            />
+            <button className='journals-search-btn'>
+              <FaSearch />
             </button>
           </div>
+        </div>
       </footer>
-
     </section>
   );
 };
