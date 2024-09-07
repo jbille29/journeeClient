@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { logOut } from '../features/authSlice';
 import { useDispatch } from 'react-redux';
-import { FaArrowLeft, FaPlus, FaFilter, FaUser, FaSignOutAlt, FaCog, FaSearch } from 'react-icons/fa';
+import { FaPlus, FaFilter, FaSearch } from 'react-icons/fa';
+import Navbar from '../components/Navbar';
 import './Entries.css';
 
 const Entries = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
 
   // Example userId and journalId for demonstration purposes
   const userId = '123'; // Replace with actual userId
@@ -42,41 +40,9 @@ const Entries = () => {
     navigate(`/${userId}/${journalId}/new`);
   };
 
-  const handleProfileClick = () => {
-    setIsProfileMenuOpen(!isProfileMenuOpen);
-  };
-
-  const handleSettingsClick = () => {
-    navigate(`/${userId}`);
-    setIsProfileMenuOpen(false);
-  };
-
-  const handleLogOutClick = () => {
-    dispatch(logOut());
-    setIsProfileMenuOpen(false);
-    navigate('/');
-  };
-
   return (
     <section className='journals-section-center'>
-        <nav className='journals-nav'>
-          <button className='journals-nav-btn'>
-            <FaArrowLeft />
-          </button>
-          <div className='journals-profile-container'>
-            <FaUser className='journals-profile-icon' onClick={handleProfileClick}/>
-            {isProfileMenuOpen && (
-            <div className='journals-profile-menu'>
-              <button className='journals-menu-item'>
-                <FaCog /> Settings
-              </button>
-              <button className='journals-menu-item' onClick={handleLogOutClick}>
-                <FaSignOutAlt /> Log Out
-              </button>
-            </div>
-          )}
-          </div>
-        </nav>
+      <Navbar />
 
       <main className='journals-main'>
         <h2 className='journals-heading'>My Entries</h2>
