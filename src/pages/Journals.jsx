@@ -1,17 +1,14 @@
 // Journal.jsx
 import React, { useState } from 'react';
-import { FaPlus, FaFilter, FaSearch } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import { FaPlus } from 'react-icons/fa';
 import { useGetJournalsQuery, useCreateJournalMutation } from '../app/api/apiSlice';
 import AddJournalModal from '../components/modals/AddJournalModal';
 import JournalCard from '../components/cards/JournalCard';
 import Navbar from '../components/Navbar';
 
 const Journal = () => {
-  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newJournal, setNewJournal] = useState({ title: '', description: '' });
-
+  const [searchTerm, setSearchTerm] = useState('');
   const { data: journals = [], isLoading: journalsLoading, isError: journalsError } = useGetJournalsQuery();
   const [createJournal] = useCreateJournalMutation();
 
@@ -30,6 +27,12 @@ const Journal = () => {
     }
   };
 
+  const filteredJournals = journals.filter((journal) => {
+    const journalTitle = journal.title ? journal.title.toLowerCase() : ''; 
+    const latestEntry = journal.latestEntryContent ? journal.latestEntryContent.toLowerCase() : ''; 
+    return journalTitle.includes(searchTerm.toLowerCase()) || latestEntry.includes(searchTerm.toLowerCase());
+  });
+
   if (journalsLoading) return <p>Loading...</p>;
   if (journalsError) return <p>Error loading journals</p>;
 
@@ -41,7 +44,7 @@ const Journal = () => {
         <h2 className='journals-heading'>My Journals</h2>
 
         <div className='journal-grid'>
-          {journals.map((journal) => (
+          {filteredJournals.map((journal) => (
             <JournalCard key={journal._id} journal={journal} />
           ))}
         </div>
@@ -57,14 +60,10 @@ const Journal = () => {
               type='text'
               className='journals-footer-input'
               placeholder='Search journals...'
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
-            <button className='journals-search-btn'>
-              <FaSearch />
-            </button>
           </div>
-          <button className='journals-footer-btn'>
-            <FaFilter /> Filter
-          </button>
         </div>
       </footer>
 

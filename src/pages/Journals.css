@@ -38,22 +38,6 @@
   border-top: 1px solid var(--clr-grey-3);
 }
 
-.journals-footer-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  border-radius: var(--radius);
-  background-color: var(--clr-primary-5);
-  color: var(--clr-white);
-  border: none;
-  cursor: pointer;
-}
-
-.journals-footer-btn:hover {
-  background-color: var(--clr-primary-7);
-}
-
 .journals-footer-input {
   padding: 0.5rem 1rem;
   border: 1px solid var(--clr-grey-3);
