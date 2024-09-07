@@ -1,0 +1,81 @@
+@import './FormStyles.css';
+
+/* Nav buttons for login and sign up */
+.nav-btns {
+    display: flex;
+    gap: 1rem;
+}
+
+.nav-link {
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius);
+    background: var(--clr-primary-5);
+    color: var(--clr-primary-10);
+    font-size: 1rem;
+    border: 2px solid var(--clr-primary-5);
+    text-transform: uppercase;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.nav-link:hover {
+    background: var(--clr-primary-6);
+}
+
+/* Profile container */
+.profile-container {
+    position: relative;
+}
+
+.profile-icon {
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--clr-primary-5);
+}
+
+.profile-menu {
+    position: absolute;
+    top: 2.5rem;
+    right: 0;
+    background-color: var(--clr-white);
+    border: 1px solid var(--clr-grey-5);
+    border-radius: var(--radius);
+    box-shadow: var(--light-shadow);
+    z-index: 1000;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    width: 100%;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    font-size: 1rem;
+    color: var(--clr-black);
+}
+
+.menu-item:hover {
+    background-color: var(--clr-grey-10);
+}
+
+.fixed-textarea {
+    width: 100%; /* or any specific width you prefer */
+    height: 400px; /* Set the desired height */
+    resize: none; /* Disable resizing by the user */
+    border: 1px solid var(--clr-grey-3); /* Optional: Add a border */
+    padding: 10px; /* Optional: Add padding */
+    border-radius: var(--radius); /* Optional: Add border-radius */
+    font-size: 1rem; /* Set the font size */
+    color: var(--clr-grey-1); /* Set the text color */
+    background-color: var(--clr-white); /* Set the background color */
+}
+
+.fixed-textarea::placeholder {
+    color: var(--clr-grey-4); /* Set the placeholder color */
+}
