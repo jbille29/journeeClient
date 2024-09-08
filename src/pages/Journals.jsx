@@ -1,12 +1,16 @@
 // Journal.jsx
 import React, { useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
+
 import { useGetJournalsQuery, useCreateJournalMutation } from '../app/api/apiSlice';
 import AddJournalModal from '../components/modals/AddJournalModal';
 import JournalCard from '../components/cards/JournalCard';
 import Navbar from '../components/Navbar';
+import './Journals.css'
 
 const Journal = () => {
+
+  /* Variables */
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const { data: journals = [], isLoading: journalsLoading, isError: journalsError } = useGetJournalsQuery();
@@ -26,22 +30,24 @@ const Journal = () => {
     }
   };
 
+  /* Search functions */
   const filteredJournals = journals.filter((journal) => {
     const journalTitle = journal.title ? journal.title.toLowerCase() : ''; 
     const latestEntry = journal.latestEntryContent ? journal.latestEntryContent.toLowerCase() : ''; 
     return journalTitle.includes(searchTerm.toLowerCase()) || latestEntry.includes(searchTerm.toLowerCase());
   });
 
+  /* Rendering */
   if (journalsLoading) return <p>Loading...</p>;
   if (journalsError) return <p>Error loading journals</p>;
 
   return (
     <section className='journals-section-center'>
+      
       <Navbar />
 
       <main className='journals-main'>
         <h2 className='journals-heading'>My Journals</h2>
-
         <div className='journal-grid'>
           {filteredJournals.map((journal) => (
             <JournalCard key={journal._id} journal={journal} />
@@ -69,6 +75,7 @@ const Journal = () => {
       {isModalOpen && (
         <AddJournalModal onClose={closeModal} onSubmit={handleModalSubmit} />
       )}
+
     </section>
   );
 };

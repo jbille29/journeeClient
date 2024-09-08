@@ -5,7 +5,7 @@ import './EntryCard.css';
 
 const EntryCard = ({ entry, userId, journalId }) => {
   return (
-    <Link to={`/${userId}/${journalId}/${entry.entryId}`} className='entry-card'>
+    <Link to={`/${userId}/${journalId}/${entry._id}`} className='entry-card'>
       <h3 className='entry-title'>{entry.title}</h3>
       <div className='entry-meta'>
         <p className='entry-date'><strong>Last updated: </strong>{entry.createdDate}</p>
