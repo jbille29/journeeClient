@@ -1,4 +1,4 @@
-/* Landing.css */
+/* General form styling */
 .auto-resize-textarea {
     width: 100%;
     resize: none;
@@ -18,7 +18,7 @@
     height: auto; /* Textarea adjusts as the user types */
   }
   
-  /* Fullscreen when focused */
+  /* Fullscreen mode on focus */
   .fullscreen-textarea {
     position: fixed;
     top: 0;
@@ -35,10 +35,13 @@
     font-size: 1.2rem;
   }
   
-  .fullscreen-textarea::placeholder {
+  /* Ensure placeholder is visible and styled */
+  .fullscreen-textarea::placeholder,
+  .auto-resize-textarea::placeholder {
     color: var(--clr-grey-4);
   }
   
+  /* Submit button styling */
   .submit-btn {
     display: inline-block;
     padding: 0.75rem 1.5rem;
@@ -53,5 +56,15 @@
   
   .submit-btn:hover {
     background-color: var(--clr-primary-7);
+  }
+  
+  /* Add viewport fit for notched devices */
+  html {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    overflow: hidden;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: env(safe-area-inset-bottom);
   }
   

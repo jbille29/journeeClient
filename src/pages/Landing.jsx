@@ -12,19 +12,33 @@ const Landing = () => {
 
   const handleFocus = () => {
     setIsFocused(true);
+
+    // Adjust padding when keyboard is likely open (on smaller screens)
+    if (window.innerHeight < 600) {
+      document.body.style.paddingBottom = '200px'; // Adds space for keyboard
+    }
+
+    // Scroll to textarea on focus to ensure visibility
+    const textarea = document.getElementById('journalTextarea');
+    window.scrollTo({
+      top: textarea.offsetTop,
+      behavior: 'smooth',
+    });
   };
 
   const handleBlur = () => {
     setIsFocused(false);
+    document.body.style.paddingBottom = '0'; // Remove padding when keyboard is hidden
   };
 
   return (
     <section className='section-center'>
       <Navbar />
       <div className='landing-content'>
-        <h3 className='form-heading'>Start Journaling Today</h3>
+        <h3 className='form-heading'>Journal Now</h3>
         <div className='form-control'>
           <textarea
+            id='journalTextarea'
             className={`form-input journal-input ${isFocused ? 'fullscreen-textarea' : 'auto-resize-textarea'}`}
             placeholder='What’s on your mind?'
             rows='8'
@@ -37,7 +51,9 @@ const Landing = () => {
             autoCapitalize='sentences'
           />
         </div>
-        <button className='submit-btn'>Get Started</button>
+        <button className='submit-btn'>
+          Get Started
+        </button>
       </div>
     </section>
   );
