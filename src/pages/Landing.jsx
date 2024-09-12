@@ -1,62 +1,54 @@
-import React, { useState } from 'react';
-import Navbar from '../components/Navbar';
-import './Landing.css'; // Assuming your styles are already defined here
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+
+import "./Landing.css"
 
 const Landing = () => {
-  const [text, setText] = useState('');
-  const [isFocused, setIsFocused] = useState(false);
+  const navigate = useNavigate()
 
-  const handleInputChange = (e) => {
+  const [text, setText] = useState('');
+
+  const handleChange = (e) => {
     setText(e.target.value);
   };
-
-  const handleFocus = () => {
-    setIsFocused(true);
-
-    // Adjust padding when keyboard is likely open (on smaller screens)
-    if (window.innerHeight < 600) {
-      document.body.style.paddingBottom = '200px'; // Adds space for keyboard
-    }
-
-    // Scroll to textarea on focus to ensure visibility
-    const textarea = document.getElementById('journalTextarea');
-    window.scrollTo({
-      top: textarea.offsetTop,
-      behavior: 'smooth',
-    });
-  };
-
-  const handleBlur = () => {
-    setIsFocused(false);
-    document.body.style.paddingBottom = '0'; // Remove padding when keyboard is hidden
-  };
-
+  
   return (
-    <section className='section-center'>
-      <Navbar />
-      <div className='landing-content'>
-        <h3 className='form-heading'>Journal Now</h3>
-        <div className='form-control'>
-          <textarea
-            id='journalTextarea'
-            className={`form-input journal-input ${isFocused ? 'fullscreen-textarea' : 'auto-resize-textarea'}`}
-            placeholder='What’s on your mind?'
-            rows='8'
-            value={text}
-            onChange={handleInputChange}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            spellCheck='true'
-            autoCorrect='on'
-            autoCapitalize='sentences'
-          />
-        </div>
-        <button className='submit-btn'>
-          Get Started
-        </button>
-      </div>
-    </section>
-  );
-};
+    <div className='landing-container'>
 
-export default Landing;
+      <nav className='navbar'>
+        <div className='nav-buttons'>
+          <button onClick={()=>navigate('/login')} className='primary-btn login-btn'>
+            Log In
+          </button>
+          <button onClick={()=>navigate('/signup')} className='secondary-btn signup-btn'>
+            Sign Up
+          </button>
+        </div>
+      </nav>
+      
+      <main>
+        <h2>
+          “Sometimes the clouds take on shapes only your heart can understand. What do you see when you look at the sky today?”
+        </h2>
+        <textarea 
+          className="landing-textarea"
+          placeholder="Rose's are red, violets are..."
+          value={text}
+          onChange={handleChange}
+        >
+
+        </textarea>
+        {text.trim() !== '' && (
+          <button
+            className='primary-btn save-entry-btn'
+            onClick={() => alert('Entry Saved!')}
+          >
+            Save Entry
+          </button>
+        )}
+      </main>
+    </div>
+  )
+}
+
+export default Landing

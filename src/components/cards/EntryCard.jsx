@@ -1,7 +1,7 @@
 // EntryCard.jsx
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './EntryCard.css';
+import './Card.css';
 
 const EntryCard = ({ entry, userId, journalId }) => {
   return (

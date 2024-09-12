@@ -1,8 +1,10 @@
-.journals-section-center {
+.journals-container {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  height: 100vh;
+  align-items: center; /* This centers content horizontally */
+  margin: 0 auto; /* Center the container itself on the page */
+  max-width: 1600px;
+  width: 100%;
 }
 
 .journals-main {
@@ -61,4 +63,92 @@
   background-color: var(--clr-primary-5);
   color: var(--clr-white);
   cursor: pointer;
+}
+
+
+
+/* NEW CSS */
+.journals-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* This centers content horizontally */
+margin: 0 auto; /* Center the container itself on the page */
+max-width: 1600px;
+width: 100%;
+ 
+}
+
+/* Grid for displaying the Journal Cards */
+.journals-grid {
+  display: grid;
+grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); /* Minimum card width of 400px */
+grid-gap: 20px;
+padding: 20px;
+width: 100%; /* Ensures the grid takes the full width of the container */
+justify-items: center; /* Ensures each card is centered in its column */
+ 
+}
+
+/* Nav bar */
+.journals-navbar {
+  margin-bottom: 1.6rem;
+  width: 100%; /* Ensures the navbar takes full width of the container */
+  text-align: center;
+  max-width: 1000px;
+}
+
+.journals-navbar-row-one {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 7rem;
+  width: 100%;
+}
+
+.journals-navbar-header {
+  margin-right: 3rem;
+}
+
+.journals-navbar-search {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: 2px solid #4FC3F7; /* Soft teal border */
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.journals-navbar-search:focus {
+  border-color: #42A5F5; /* Darker teal on focus */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Slightly deeper shadow on focus */
+}
+
+/* Responsive ***********************************/  
+
+/* Phone styles (up to 600px) */
+@media (max-width: 600px) {
+  .journals-grid {
+    grid-template-columns: 1fr; /* Single column layout on phones */
+  }
+}
+
+/* Tablet styles (601px to 1024px) */
+@media (min-width: 601px) and (max-width: 1024px) {
+  .journals-container {
+    width: 80%;
+  }
+
+  .journals-grid {
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); /* Adjust for tablet size */
+  }
+}
+
+/* Desktop styles (1025px and above) */
+@media (min-width: 1025px) {
+  .journals-grid {
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); /* Three columns or more on large screens */
+  }
 }

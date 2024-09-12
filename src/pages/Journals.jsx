@@ -1,11 +1,11 @@
 // Journal.jsx
 import React, { useState } from 'react';
-import { FaPlus } from 'react-icons/fa';
 
 import { useGetJournalsQuery, useCreateJournalMutation } from '../app/api/apiSlice';
-import AddJournalModal from '../components/modals/AddJournalModal';
+
+import ProfileDropdown from '../components/ProfileDropdown';
+import AddJournal from '../components/modals/AddJournal';
 import JournalCard from '../components/cards/JournalCard';
-import Navbar from '../components/Navbar';
 import './Journals.css'
 
 const Journal = () => {
@@ -42,38 +42,42 @@ const Journal = () => {
   if (journalsError) return <p>Error loading journals</p>;
 
   return (
-    <section className='journals-section-center'>
+    <section className='journals-container'>
       
-      <Navbar />
-
-      <main className='journals-main'>
-        <h2 className='journals-heading'>My Journals</h2>
-        <div className='journal-grid'>
-          {filteredJournals.map((journal) => (
-            <JournalCard key={journal._id} journal={journal} />
-          ))}
+      <nav className='journals-navbar'>
+        <div className='journals-navbar-row-one'>
+          <button 
+            className='primary-btn'
+            onClick={openModal}
+          >
+            Add Journal
+          </button>
+          <h2 className='journals-navbar-header'>My Journals</h2>
+          <ProfileDropdown />
+        
         </div>
+        <input
+          className='journals-navbar-search'
+          type='text'
+          placeholder='Search journals...'
+        />
+      </nav>
+
+      <main className='journals-grid'>
+        {filteredJournals.length > 0 ? (
+          filteredJournals.map((journal) => (
+            <JournalCard key={journal._id} journal={journal} />
+          ))
+        ) : (
+          <p>No journals yet</p>
+        )}
       </main>
 
-      <footer className='journal-footer'>
-        <button className='journals-footer-btn' onClick={openModal}>
-          <FaPlus /> Add Journal
-        </button>
-        <div className='journals-search'>
-          <div className='journals-search-bar'>
-            <input
-              type='text'
-              className='journals-footer-input'
-              placeholder='Search journals...'
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
-        </div>
-      </footer>
-
       {isModalOpen && (
-        <AddJournalModal onClose={closeModal} onSubmit={handleModalSubmit} />
+        <AddJournal 
+          onClose={closeModal} 
+          onSubmit={handleModalSubmit} 
+        />
       )}
 
     </section>

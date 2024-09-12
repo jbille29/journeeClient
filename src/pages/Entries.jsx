@@ -1,21 +1,20 @@
 // Entries.jsx
 import React, { useState } from 'react';
-import { FaPlus, FaSearch } from 'react-icons/fa';
 import { useNavigate, useParams } from 'react-router-dom';
-import Navbar from '../components/Navbar';
+
+import { useGetEntriesByJournalIdQuery, useGetJournalByIdQuery } from '../app/api/apiSlice';
+
 import EntryCard from '../components/cards/EntryCard'; // Import EntryCard component
-import './Entries.css';
-import { useGetEntriesByJournalIdQuery } from '../app/api/apiSlice';
+import ProfileDropdown from '../components/ProfileDropdown';
+import './Journals.css';
+
 
 const Entries = () => {
   const navigate = useNavigate();
   const { userId, journalId } = useParams()
   const { data: entries = [], isLoading: entriesLoading, isError: entriesError } = useGetEntriesByJournalIdQuery(journalId);
+  const { data: journal, isLoading: journalLoading, isError: journalError } = useGetJournalByIdQuery(journalId);
   const [searchTerm, setSearchTerm] = useState(''); // State for search input
-
-  const handleAddEntryClick = () => {
-    navigate(`/${userId}/${journalId}/new`);
-  };
 
   /* Search functions */
   const filteredEntries = entries.filter((entry) => {
@@ -24,48 +23,48 @@ const Entries = () => {
     return entryTitle.includes(searchTerm.toLowerCase()) || entryContent.includes(searchTerm.toLowerCase());
   });
 
-  if (entriesLoading) return <p>Loading...</p>;
-  if (entriesError) return <p>Error loading entries</p>;
+  if (entriesLoading || journalLoading) return <p>Loading...</p>;
+  if (entriesError || journalError) return <p>Error loading entries</p>;
 
   return (
-    <section className='journals-section-center'>
+    <section className='journals-container'>
 
-      <Navbar />
-
-      <main className='journals-main'>
-        <h2 className='journals-heading'>My Entries</h2>
-
-        <div className='journal-grid'>
-          {filteredEntries.map((entry) => (
-            <EntryCard 
-              key={entry._id} 
-              entry={entry} 
-              userId={userId} 
-              journalId={journalId} 
-            />
-          ))}
+      <nav className='journals-navbar'>
+        <div className='journals-navbar-row-one'>
+          <button 
+            className='primary-btn'
+            onClick={()=>navigate(`/${userId}/${journalId}/new`)}
+          >
+            Add Entry
+          </button>
+          <h2 className='journals-navbar-header'>{journal.title}</h2>
+          <ProfileDropdown />
+        
         </div>
+        <input
+          className='journals-navbar-search'
+          type='text'
+          placeholder='Search entries...'
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)} // Update search term
+        />
+        <p>{journal.description}</p>
+      </nav>
+
+      <main className='journals-grid'>
+          {filteredEntries.length > 0 ? (
+            filteredEntries.map((entry) => (
+              <EntryCard 
+                key={entry._id} 
+                entry={entry} 
+                userId={userId} 
+                journalId={journalId} 
+              />
+          ))
+        ) : (
+          <p>No entries yet</p>
+        )}
       </main>
-
-      <footer className='journal-footer'>
-        <button className='journals-footer-btn' onClick={handleAddEntryClick}>
-          <FaPlus /> Add Entry
-        </button>
-        <div className='journals-search'>
-          <div className='journals-search-bar'>
-            <input
-              type='text'
-              className='journals-footer-input'
-              placeholder='Search entries...'
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)} // Update search term
-            />
-            <button className='journals-search-btn'>
-              <FaSearch />
-            </button>
-          </div>
-        </div>
-      </footer>
 
     </section>
   );

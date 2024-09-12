@@ -33,6 +33,8 @@ export default [
         'warn',
         { allowConstantExport: true },
       ],
+      quotes: ["error", "single"], // Enforce single quotes
+      semi: ["error", "never"] // Disallow semicolons
     },
   },
 ]

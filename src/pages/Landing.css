@@ -1,70 +1,106 @@
-/* General form styling */
-.auto-resize-textarea {
-    width: 100%;
-    resize: none;
-    border: 1px solid var(--clr-grey-3);
-    padding: 10px;
-    border-radius: var(--radius);
-    font-size: 1rem;
-    color: var(--clr-grey-1);
-    background-color: var(--clr-white);
-    transition: height 0.2s ease-in-out;
-    min-height: 150px; /* Minimum height when not focused */
-    overflow-y: hidden; /* Hide scroll until content exceeds */
-  }
+
+
+.landing-container {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;     /* center on page */
+  max-width: 1000px;
+}
+
+.landing-container h2 {
+  margin-top: 0;
+  text-align: center;
+}
+
+.landing-textarea {
+  margin-top: 1.75rem;
+
+  box-sizing: border-box;
+  width: 100%; /* Adjust the width based on parent container */
+  height: 500px; /* Fixed height */
+  padding: 12px;
+  font-size: 16px;
+  border: 2px solid #4FC3F7; /* Soft teal border */
+  border-radius: var(--normal-border-rad);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  resize: none; /* Disable resizing */
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  overflow: auto;
+
+  font-size: 16px;
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+}
+
+textarea:focus {
+  border-color: #42A5F5; /* Darker teal border on focus */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Scrollbar Track */
+textarea::-webkit-scrollbar {
+  width: 10px; /* Width of the scrollbar track */
+}
+
+/* Scrollbar Handle (Thumb) */
+textarea::-webkit-scrollbar-thumb {
+  background-color: #4FC3F7; /* Blue color for the thumb */
+  border-radius: 10px; /* Rounded corners for the handle */
+  width: 16px; /* Wider than the scrollbar track */
+  margin: 0 -3px; /* Negative margin to make the thumb overflow outside the track */
+}
+
+/* Scrollbar Track (Background) */
+textarea::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Light background for the scrollbar track */
+}
+
+/* Remove Top and Bottom Arrows */
+textarea::-webkit-scrollbar-button {
+  display: none; /* Hides the top and bottom arrows */
+}
+
+.save-entry-btn {
+  width: 100%;
+}
+
+
+/* Responsive ***********************************/  
+
+/* Phone styles (up to 600px) */
+@media (max-width: 600px) {
+  .landing-container {
   
-  /* Automatically adjusts height when typing */
-  .auto-resize-textarea:focus {
-    height: auto; /* Textarea adjusts as the user types */
   }
-  
-  /* Fullscreen mode on focus */
-  .fullscreen-textarea {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 80vh; /* Takes up 80% of the screen height */
-    z-index: 999;
-    background-color: var(--clr-white);
-    border-radius: 0;
-    padding: 20px;
-    box-sizing: border-box;
-    transition: all 0.3s ease;
-    outline: none;
-    font-size: 1.2rem;
+}
+
+/* Tablet styles (601px to 1024px) */
+@media (min-width: 601px) and (max-width: 1024px) {
+  .landing-container {
+      width: 80%;
   }
+}
+
+/* Desktop styles (1025px and above) */
+@media (min-width: 1025px) {}
+
+/* Nav bar styles */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: end;
   
-  /* Ensure placeholder is visible and styled */
-  .fullscreen-textarea::placeholder,
-  .auto-resize-textarea::placeholder {
-    color: var(--clr-grey-4);
-  }
-  
-  /* Submit button styling */
-  .submit-btn {
-    display: inline-block;
-    padding: 0.75rem 1.5rem;
-    border-radius: var(--radius);
-    background-color: var(--clr-primary-5);
-    color: var(--clr-white);
-    border: none;
-    cursor: pointer;
-    font-size: 1.2rem;
-    transition: background-color 0.3s ease;
-  }
-  
-  .submit-btn:hover {
-    background-color: var(--clr-primary-7);
-  }
-  
-  /* Add viewport fit for notched devices */
-  html {
-    height: 100%;
-    width: 100%;
-    position: fixed;
-    overflow: hidden;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: env(safe-area-inset-bottom);
-  }
-  
+  height: 7rem;
+}
+
+.login-btn {
+  margin-right: 1rem;
+}
+
+.login-btn, .signup-btn {
+  width: 115px;
+}

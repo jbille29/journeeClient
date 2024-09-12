@@ -1,0 +1,55 @@
+
+
+.card-container {
+    text-decoration: none;
+    color: inherit;
+    background-color: white;
+    min-width: 400px;
+    max-width: 600px;
+
+    margin-bottom: 1rem;
+
+    display: block; /* Ensure it behaves like a block element */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover */
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    box-shadow: var(--light-shadow); /* Apply initial shadow */
+}
+
+.card-container:hover {
+    text-decoration: none;
+    color: inherit;
+
+    transform: scale(1.05); /* Slightly grow the card */
+    box-shadow: var(--dark-shadow); /* Apply stronger shadow on hover */
+}
+
+.card-container h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.card-stats p{
+    margin: 0;
+}
+
+.card-stats {
+    margin-bottom: 1rem;
+    text-align: left;
+}
+
+.card-entry-preview {
+    background-color: #f0f4f8;
+    padding: 5px 20px;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+}
+
+.card-entry-title {
+    font-size: 20px;
+    text-align: center;
+}
+
+.card-entry-text {
+    color: #9d9d9d;
+}

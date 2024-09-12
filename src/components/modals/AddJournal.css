@@ -1,0 +1,96 @@
+/* Modal overlay and content */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);  /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;  /* Ensure it's above other elements */
+  }
+  
+  .modal-content {
+    background-color: var(--clr-white);
+    padding: 2rem;
+    border-radius: var(--radius);
+    width: 400px;  /* Adjust width as necessary */
+    box-shadow: var(--dark-shadow);
+    position: relative;
+  }
+  
+  /* Modal header with title and close icon */
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .close-icon {
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--clr-grey-2);
+  }
+  
+  .close-icon:hover {
+    color: var(--clr-grey-4);
+  }
+  
+  /* Modal body with form controls */
+  .modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .form-label {
+    font-size: 1rem;
+    color: var(--clr-grey-1);
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Input and textarea styling */
+  .form-input {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--clr-grey-3);
+    border-radius: var(--radius);
+    font-size: 1rem;
+    color: var(--clr-grey-1);
+    background-color: var(--clr-white);
+
+    font-size: 16px;
+    font-family: "Open Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-variation-settings: "wdth" 100;
+  }
+  
+  .form-input:focus {
+    outline: none;
+    border-color: var(--clr-primary-5);
+    box-shadow: var(--light-shadow);
+  }
+  
+  /* Textarea: non-resizable and fixed height */
+  .journal-textarea {
+    resize: none;  /* Disable resizing */
+  }
+  
+  /* Modal footer with create button */
+  .modal-footer {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .create-btn {
+    width: 100%;
+  }
+
+  

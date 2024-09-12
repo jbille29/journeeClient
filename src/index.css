@@ -1,10 +1,6 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+:root {
 
   /* dark shades of primary color*/
   --clr-primary-1: hsl(205, 86%, 17%);
@@ -42,22 +38,84 @@
   --radius: 0.25rem;
   --light-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   --dark-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+
+  --clr-blue: #4fc3f7;
+  --clr-background-blue: #f0f4f8;
+  --clr-red: #e57373;
+  --clr-green: #81c784;
+
+  --normal-font: 16px;
+  --heading-font: 24px;
+  
+  --normal-border-rad: 5px;
 }
 
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 html, body {
-  height: 100%; /* Ensure the body and html take up full height */
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+
+  box-sizing: border-box;
   margin: 0;
-  min-height: 100vh;
-  padding: 0;
-  background: var(--clr-grey-10);
+
+  background-color: var(--clr-background-blue);
 }
 
-#root {
-    min-height: inherit;
+h2 {
+  font-weight: normal;
+  font-size: var(--heading-font);
 }
+
+.primary-btn {
+  background-color: var(--clr-blue); /* Soft teal for login/sign up */
+  color: white;
+  padding: 12px 24px;
+  font-size: var(--normal-font);
+  border: none;
+  border-radius: var(--normal-border-rad);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+button.primary-btn:hover {
+  background-color: #42A5F5; /* Darker teal on hover */
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+button.primary-btn:active {
+  background-color: #1E88E5; /* Even darker on click */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.secondary-btn {
+  background-color: white;
+  color: #4FC3F7; /* Soft teal for text */
+  padding: 12px 24px;
+  font-size: 16px;
+  border: 2px solid #4FC3F7; /* Soft teal border */
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+button.secondary-btn:hover {
+  background-color: #4FC3F7; /* Teal background on hover */
+  color: white; /* White text on hover */
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+button.secondary-btn:active {
+  background-color: #42A5F5; /* Darker teal on click */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 
 
