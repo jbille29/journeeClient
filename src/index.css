@@ -94,6 +94,29 @@ button.primary-btn:active {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+button.red-btn {
+  background-color: #E57373; /* Soft red */
+  color: white;
+  padding: 12px 24px;
+  font-size: var(--normal-font);
+  border: none;
+  border-radius: var(--normal-border-rad);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+button.red-btn:hover {
+  background-color: #EF5350; /* Darker red on hover */
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+button.red-btn:active {
+  background-color: #D32F2F; /* Even darker on click */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
 .secondary-btn {
   background-color: white;
   color: #4FC3F7; /* Soft teal for text */
