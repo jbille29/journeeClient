@@ -69,6 +69,10 @@ export const apiSlice = createApi({
       query: (journalId) => `/entries/journal/${journalId}`,
       providesTags: (result, error, journalId) => [{ type: 'Entry', id: journalId }],
     }),
+    getEntryByEntryId: builder.query({
+      query: (entryId) => `/entries/${entryId}`,
+      providesTags: (result, error, entryId) => [{ type: 'Entry', id: entryId }],
+    }),
     createEntry: builder.mutation({
       query: (newEntry) => ({
         url: '/entries',
@@ -104,6 +108,7 @@ export const {
   useUpdateJournalMutation,
   useDeleteJournalMutation,
   useGetEntriesByJournalIdQuery,
+  useGetEntryByEntryIdQuery,
   useCreateEntryMutation,
   useUpdateEntryMutation,
   useDeleteEntryMutation,

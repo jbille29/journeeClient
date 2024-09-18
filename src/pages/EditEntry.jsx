@@ -1,12 +1,25 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { FaArrowLeft } from 'react-icons/fa';
-import './EditEntry.css';
+import { useGetEntryByEntryIdQuery } from '../app/api/apiSlice';
 
-const EditEntryPage = () => {
+
+const EditEntry = () => {
   const navigate = useNavigate();
+  const { userId, journalId, entryId } = useParams();
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+  const { data: entry, isLoading, isError } = useGetEntryByEntryIdQuery(entryId);
+  const [entryName, setEntryName] = useState("");
+  const [text, setText] = useState('');
+
+  useEffect(() => {
+    if(!entry) return
+
+    setEntryName(entry.title);
+    setText(entry.content)
+  }, [entry]);
 
   const handleCancelClick = () => {
     setIsCancelModalOpen(true);
@@ -21,7 +34,7 @@ const EditEntryPage = () => {
   };
 
   const handleConfirmCancel = () => {
-    navigate('/journals/1');
+    navigate(`/${userId}/${journalId}`);
   };
 
   const handleConfirmDelete = () => {
@@ -40,29 +53,60 @@ const EditEntryPage = () => {
   };
 
   return (
-    <section className='section-center'>
-      <nav className='nav'>
+    <div className='landing-container'>
+      <nav className='navbar' 
+        style={{
+          justifyContent: "start"
+        }}>
         <button className='nav-btn' onClick={handleBackClick}>
           <FaArrowLeft />
         </button>
       </nav>
 
       <main>
-        <h2>Edit Entry</h2>
-        <textarea
-          className='form-input entry-input'
-          placeholder='Edit your journal entry...'
-          rows='10'
+      <input 
+          type="text" 
+          placeholder='Name your entry'
+          value={entryName}
+          onChange={(e)=>{setEntryName(e.target.value)}}
+          style={{
+            width: '100%', // Make the input take the full width of the container
+            fontSize: '1.75rem', // Increase the font size to make it look more like a heading
+            padding: '10px 15px', // Add padding for more space inside the input
+            border: '2px solid #4FC3F7', // Add a subtle border
+            borderRadius: '5px', // Slightly round the corners
+            marginBottom: '20px', // Add some margin at the bottom for spacing
+            boxSizing: 'border-box', // Ensure the padding doesn't affect the width
+          }}
         />
-        <div className='entry-actions'>
-          <button className='entry-btn submit-btn' onClick={handleSubmit}>
+        <textarea
+          className='landing-textarea'
+          placeholder='Write your journal entry...'
+          value={text}
+          onChange={(e)=>{setText(e.target.value)}}
+        />
+        <div style={{
+          display: "flex",
+          justifyContent:"space-between",
+          width: "100%"
+        }}>
+          <button 
+            className='primary-btn' 
+            onClick={handleSubmit}
+            style={{
+              width:"50%"
+            }}
+          >
             Save Changes
           </button>
-          <button className='entry-btn cancel-btn' onClick={handleCancelClick}>
-            Cancel
-          </button>
-          <button className='entry-btn delete-btn' onClick={handleDeleteClick}>
-            Delete
+          <button 
+            className='red-btn' 
+            onClick={handleCancelClick}
+            style={{
+              width:"50%"
+            }}
+          >
+            Cancel Changes
           </button>
         </div>
       </main>
@@ -72,10 +116,10 @@ const EditEntryPage = () => {
           <div className='modal-content'>
             <h2>Are you sure?</h2>
             <div className='modal-actions'>
-              <button className='modal-btn yes-btn' onClick={handleConfirmCancel}>
+              <button className='primary-btn' onClick={handleConfirmCancel}>
                 Yes
               </button>
-              <button className='modal-btn no-btn' onClick={handleNoClick}>
+              <button className='red-btn' onClick={handleNoClick}>
                 No
               </button>
             </div>
@@ -98,8 +142,8 @@ const EditEntryPage = () => {
           </div>
         </div>
       )}
-    </section>
+    </div>
   );
 };
 
-export default EditEntryPage;
+export default EditEntry;
