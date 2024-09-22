@@ -9,6 +9,8 @@ import './Login.css';
 const Login = () => {
   const [email, setEmail] = useState('jb@gmail.com');
   const [password, setPassword] = useState('123456');
+  const [errorMessage, setErrorMessage] = useState('');  // Unified error state
+
   const [login, { isLoading, error }] = useLoginMutation();
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const userId = useSelector(selectUserId);
@@ -24,6 +26,13 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setErrorMessage(''); // Reset error message before new submission
+
+    // Client-side validation: check if email or password fields are empty
+    if (!email || !password) {
+      setErrorMessage('Both email and password are required!');
+      return;
+    }
 
     // Create an abort controller to handle cleanup
     const controller = new AbortController();
@@ -40,7 +49,7 @@ const Login = () => {
       if (err.name === 'AbortError') {
         console.log('Login request was aborted');
       } else {
-        console.error('Failed to login:', err);
+        setErrorMessage(error?.data?.message || 'Failed to login. Please try again.');
       }
     }
 
@@ -61,7 +70,10 @@ const Login = () => {
 
       <form className='login-form' onSubmit={handleLogin}>
         <h3 className='login-form-heading'>Login</h3>
-        {error && <p className="error-message">{error.data?.message || 'Login failed'}</p>} 
+        
+        {/* Unified error message for both client-side and server-side errors */}
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
+
         <div className='login-form-control'>
           <input
             type='email'

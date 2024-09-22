@@ -12,7 +12,7 @@ const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');  // New state to handle errors
+  const [errorMessage, setErrorMessage] = useState('');  // Unified error state
 
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const userId = useSelector(selectUserId);
@@ -37,8 +37,11 @@ const Signup = () => {
       return;
     }
 
+    // Create an abort controller to handle cleanup
+    const controller = new AbortController();
+
     try {
-      const userData = await register({ username, email, password }).unwrap();
+      const userData = await register({ username, email, password }, { signal: controller.signal }).unwrap();
       dispatch(setCredentials({
         username: userData.username,
         userId: userData._id,
@@ -46,10 +49,17 @@ const Signup = () => {
       }));
       navigate(`/${userData._id}/journals`);
     } catch (err) {
-      // Handle possible server-side errors
-      console.error('Failed to sign up:', err);
-      setErrorMessage('Failed to sign up. Please try again.');
+      if (err.name === 'AbortError') {
+        console.log('Signup request was aborted');
+      } else {
+        setErrorMessage(error?.data?.message || 'Failed to sign up. Please try again.');
+      }
     }
+
+    return () => {
+      // Abort the request if the component unmounts or if another request is made
+      controller.abort();
+    };
   };
 
   return (
@@ -63,8 +73,9 @@ const Signup = () => {
       <form className='signup-form' onSubmit={handleSignup}>
         <h3 className='form-heading'>Sign Up</h3>
 
-        {errorMessage && <p className="error-message">{errorMessage}</p>} {/* Error message */}
-        
+        {/* Unified error message for both client-side and server-side errors */}
+        {errorMessage && <p className="error-message">{errorMessage}</p>} 
+
         <div className='form-control'>
           <input
             type='text'
@@ -109,8 +120,6 @@ const Signup = () => {
         <button type='submit' className='submit-btn'>
           {isLoading ? 'Signing up...' : 'Sign up'}
         </button>
-        
-        {error && <p className="error-message">{error.data?.message || 'Sign up failed'}</p>} {/* Backend error handling */}
 
         <div className='form-links'>
           <Link to='/login' className='login-link'>
