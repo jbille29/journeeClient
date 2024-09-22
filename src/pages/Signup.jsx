@@ -5,34 +5,38 @@ import { setCredentials, selectIsAuthenticated, selectUserId } from '../features
 import { useNavigate, Link } from 'react-router-dom';
 import { FaArrowLeft } from 'react-icons/fa';
 import './Signup.css';
-import './FormStyles.css'
+import './FormStyles.css';
 
 const Signup = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');  // New state to handle errors
 
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const userId = useSelector(selectUserId);
-  
+
   const [register, { isLoading, error }] = useRegisterMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // If user is already logged in
+  // Redirect authenticated user to journals if they are already logged in
   useEffect(() => {
     if (isAuthenticated) {
-      navigate(`/${userId}/journals`); // Redirect to the desired route
+      navigate(`/${userId}/journals`);
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, userId, navigate]);
 
   const handleSignup = async (e) => {
     e.preventDefault();
+    setErrorMessage(''); // Reset error message
+
     if (password !== confirmPassword) {
-      alert('Passwords do not match!');
+      setErrorMessage('Passwords do not match!');
       return;
     }
+
     try {
       const userData = await register({ username, email, password }).unwrap();
       dispatch(setCredentials({
@@ -40,15 +44,16 @@ const Signup = () => {
         userId: userData._id,
         accessToken: userData.token,
       }));
-      navigate(`/${userData._id}/journals`);  // Redirect to journals page
+      navigate(`/${userData._id}/journals`);
     } catch (err) {
-      console.error('Failed to login:', err);
+      // Handle possible server-side errors
+      console.error('Failed to sign up:', err);
+      setErrorMessage('Failed to sign up. Please try again.');
     }
-  }
+  };
 
   return (
     <section className='section-center'>
-
       <nav className='nav'>
         <button className='nav-btn' onClick={() => navigate('/')}>
           <FaArrowLeft />
@@ -57,6 +62,9 @@ const Signup = () => {
 
       <form className='signup-form' onSubmit={handleSignup}>
         <h3 className='form-heading'>Sign Up</h3>
+
+        {errorMessage && <p className="error-message">{errorMessage}</p>} {/* Error message */}
+        
         <div className='form-control'>
           <input
             type='text'
@@ -97,16 +105,19 @@ const Signup = () => {
             required
           />
         </div>
+
         <button type='submit' className='submit-btn'>
-        {isLoading ? 'Signing up...' : 'Sign up'}
+          {isLoading ? 'Signing up...' : 'Sign up'}
         </button>
+        
+        {error && <p className="error-message">{error.data?.message || 'Sign up failed'}</p>} {/* Backend error handling */}
+
         <div className='form-links'>
           <Link to='/login' className='login-link'>
             Already have an account? Log In
           </Link>
         </div>
       </form>
-
     </section>
   );
 };

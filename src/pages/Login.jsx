@@ -61,6 +61,7 @@ const Login = () => {
 
       <form className='login-form' onSubmit={handleLogin}>
         <h3 className='login-form-heading'>Login</h3>
+        {error && <p className="error-message">{error.data?.message || 'Login failed'}</p>} 
         <div className='login-form-control'>
           <input
             type='email'
@@ -86,8 +87,6 @@ const Login = () => {
         <button type='submit' className='login-submit-btn' disabled={isLoading}>
           {isLoading ? 'Logging in...' : 'Login'}
         </button>
-
-        {error && <p className="error-message">Login failed. Please check your credentials and try again.</p>}
 
         <div className='login-form-links'>
           <Link to='/forgot-password' className='login-forgot-password-link'>
