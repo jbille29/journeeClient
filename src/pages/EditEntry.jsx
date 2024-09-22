@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FaArrowLeft } from 'react-icons/fa';
-import { useGetEntryByEntryIdQuery } from '../app/api/apiSlice';
+import { useGetEntryByEntryIdQuery , useUpdateEntryMutation, useDeleteEntryMutation } from '../app/api/apiSlice';
 
 
 const EditEntry = () => {
@@ -11,6 +11,8 @@ const EditEntry = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const { data: entry, isLoading, isError } = useGetEntryByEntryIdQuery(entryId);
+  const [updateEntry] = useUpdateEntryMutation();
+  const [deleteEntry] = useDeleteEntryMutation();
   const [entryName, setEntryName] = useState("");
   const [text, setText] = useState('');
 
@@ -37,10 +39,14 @@ const EditEntry = () => {
     navigate(`/${userId}/${journalId}`);
   };
 
-  const handleConfirmDelete = () => {
-    // Handle the deletion logic here
-    console.log('Entry Deleted');
-    navigate('/journals/1');
+  const handleConfirmDelete = async () => {
+    try {
+      await deleteEntry({ id: entryId, journal: journalId }).unwrap();
+      
+      navigate(`/${userId}/${journalId}`);
+    } catch (error) {
+      console.error('Failed to delete entry:', error);
+    }
   };
 
   const handleNoClick = () => {
@@ -48,8 +54,15 @@ const EditEntry = () => {
     setIsDeleteModalOpen(false);
   };
 
-  const handleSubmit = () => {
-    navigate('/journals/1');
+  const handleSubmit = async () => {
+    const updatedEntry = {title: entryName, content: text}
+    try {
+      await updateEntry({ id: entryId, ...updatedEntry }).unwrap();
+      
+      navigate(`/${userId}/${journalId}`);
+    } catch (error) {
+      console.error('Failed to update entry:', error);
+    }
   };
 
   return (
@@ -109,6 +122,15 @@ const EditEntry = () => {
             Cancel Changes
           </button>
         </div>
+        <button 
+            className='red-btn' 
+            onClick={handleDeleteClick}
+            style={{
+              width:"100%"
+            }}
+          >
+            Delete Entry
+          </button>
       </main>
 
       {isCancelModalOpen && (

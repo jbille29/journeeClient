@@ -90,7 +90,7 @@ export const apiSlice = createApi({
       invalidatesTags: (result, error, { journal }) => [{ type: 'Entry', id: journal }],
     }),
     deleteEntry: builder.mutation({
-      query: (id) => ({
+      query: ({ id }) => ({
         url: `/entries/${id}`,
         method: 'DELETE',
       }),

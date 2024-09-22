@@ -1,0 +1,113 @@
+/* Modal overlay and content */
+.edit-journal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);  /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;  /* Ensure it's above other elements */
+  }
+  
+  .edit-journal-content {
+    background-color: var(--clr-white);
+    padding: 2rem;
+    border-radius: var(--radius);
+    width: 400px;  /* Adjust width as necessary */
+    box-shadow: var(--dark-shadow);
+    position: relative;
+  }
+  
+  /* Modal header with title and close icon */
+  .edit-journal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .edit-journal-close-icon {
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--clr-grey-2);
+  }
+  
+  .edit-journal-close-icon:hover {
+    color: var(--clr-grey-4);
+  }
+  
+  /* Modal body with form controls */
+  .edit-journal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .edit-journal-form-label {
+    font-size: 1rem;
+    color: var(--clr-grey-1);
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Input and textarea styling */
+  .edit-journal-form-input {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--clr-grey-3);
+    border-radius: var(--radius);
+    font-size: 1rem;
+    color: var(--clr-grey-1);
+    background-color: var(--clr-white);
+  
+    font-size: 16px;
+    font-family: "Open Sans", sans-serif;
+  }
+  
+  .edit-journal-form-input:focus {
+    outline: none;
+    border-color: var(--clr-primary-5);
+    box-shadow: var(--light-shadow);
+  }
+  
+  /* Textarea: non-resizable and fixed height */
+  .edit-journal-textarea {
+    resize: none;  /* Disable resizing */
+  }
+  
+  /* Modal footer with save and delete buttons */
+  .edit-journal-footer {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: space-between; /* Align Save and Delete buttons side by side */
+  }
+  
+  .edit-journal-save-btn {
+    background-color: var(--clr-primary-5);
+    color: var(--clr-white);
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+  }
+  
+  .edit-journal-save-btn:hover {
+    background-color: var(--clr-primary-7);
+  }
+  
+  .edit-journal-delete-btn {
+    background-color: var(--clr-danger-5);
+    color: var(--clr-white);
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+  }
+  
+  .edit-journal-delete-btn:hover {
+    background-color: var(--clr-danger-7);
+  }
+  
