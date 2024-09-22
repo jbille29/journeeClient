@@ -60,6 +60,9 @@ const Journal = () => {
           className='journals-navbar-search'
           type='text'
           placeholder='Search journals...'
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)} 
+          aria-label='Search journals'
         />
       </nav>
 
@@ -69,7 +72,7 @@ const Journal = () => {
             <JournalCard key={journal._id} journal={journal} />
           ))
         ) : (
-          <p>No journals yet</p>
+          <p>{searchTerm ? 'No journals match your search' : 'No journals yet'}</p>
         )}
       </main>
 
