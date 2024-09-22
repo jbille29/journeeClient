@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import Navbar from "../components/Navbar"
 import "./Landing.css"
 
 const Landing = () => {
@@ -15,16 +16,7 @@ const Landing = () => {
   return (
     <div className='landing-container'>
 
-      <nav className='navbar'>
-        <div className='nav-buttons'>
-          <button onClick={()=>navigate('/login')} className='primary-btn login-btn'>
-            Log In
-          </button>
-          <button onClick={()=>navigate('/signup')} className='secondary-btn signup-btn'>
-            Sign Up
-          </button>
-        </div>
-      </nav>
+      <Navbar />
       
       <main>
         <h2>

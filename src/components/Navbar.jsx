@@ -1,11 +1,12 @@
 // Navbar.jsx
 import React, { useState } from 'react';
 import { FaUser, FaSignOutAlt, FaCog } from 'react-icons/fa';
-import { Link, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { selectIsAuthenticated, selectUserId, logOut } from '../features/authSlice'; 
 
-import './Navbar.css'
+import ProfileDropdown from './ProfileDropdown';
 
 const Navbar = () => {
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
@@ -31,30 +32,19 @@ const Navbar = () => {
   };
 
   return (
-    <nav className='journals-nav'>
+    <nav className='navbar'>
       {isAuthenticated ? (
-        <div className='journals-profile-container'>
-          <FaUser className='journals-profile-icon' onClick={handleProfileClick} />
-          
-          {isProfileMenuOpen && (
-            <div className='journals-profile-menu'>
-              <button className='journals-menu-item' onClick={handleSettingsClick}>
-                <FaCog /> Settings
-              </button>
-              <button className='journals-menu-item' onClick={handleLogOutClick}>
-                <FaSignOutAlt /> Log Out
-              </button>
-            </div>
-          )}
+        <div className='nav-buttons'>
+          <ProfileDropdown />
         </div>
       ) : (
-        <div className='journals-nav-auth'>
-          <Link to="/login" className='journals-nav-btn'>
+        <div className='nav-buttons'>
+          <button onClick={()=>navigate('/login')}  className='primary-btn login-btn'>
             Log In
-          </Link>
-          <Link to="/signup" className='journals-nav-btn'>
+          </button>
+          <button onClick={()=>navigate('/signup')} className='secondary-btn signup-btn'>
             Sign Up
-          </Link>
+          </button>
         </div>
       )}
     </nav>

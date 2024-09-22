@@ -4,38 +4,51 @@ import { FaArrowLeft } from 'react-icons/fa';
 import { useLoginMutation } from '../app/api/apiSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCredentials, selectIsAuthenticated, selectUserId } from '../features/authSlice';
-import './Login.css'
+import './Login.css';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('jb@gmail.com');
+  const [password, setPassword] = useState('123456');
   const [login, { isLoading, error }] = useLoginMutation();
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const userId = useSelector(selectUserId);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // If user is already logged in
   useEffect(() => {
+    // Redirect if the user is already authenticated
     if (isAuthenticated) {
-      navigate(`/${userId}/journals`); // Redirect to the desired route
+      navigate(`/${userId}/journals`);
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, userId, navigate]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
+    // Create an abort controller to handle cleanup
+    const controller = new AbortController();
+
     try {
-      const userData = await login({ email, password }).unwrap();
+      const userData = await login({ email, password }, { signal: controller.signal }).unwrap();
       dispatch(setCredentials({
         username: userData.username,
         userId: userData._id,
         accessToken: userData.token,
       }));
-      navigate(`/${userData._id}/journals`);  // Redirect to journals page
+      navigate(`/${userData._id}/journals`);
     } catch (err) {
-      console.error('Failed to login:', err);
+      if (err.name === 'AbortError') {
+        console.log('Login request was aborted');
+      } else {
+        console.error('Failed to login:', err);
+      }
     }
-  }
+
+    return () => {
+      // Abort the request if the component unmounts or if another request is made
+      controller.abort();
+    };
+  };
 
   return (
     <section className='login-section-center'>
@@ -55,6 +68,7 @@ const Login = () => {
             onChange={(e) => setEmail(e.target.value)}
             className='login-input'
             placeholder='Email'
+            aria-label='Email'
             required
           />
         </div>
@@ -65,12 +79,16 @@ const Login = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder='Password'
+            aria-label='Password'
             required
           />
         </div>
-        <button type='submit' className='login-submit-btn'>
+        <button type='submit' className='login-submit-btn' disabled={isLoading}>
           {isLoading ? 'Logging in...' : 'Login'}
         </button>
+
+        {error && <p className="error-message">Login failed. Please check your credentials and try again.</p>}
+
         <div className='login-form-links'>
           <Link to='/forgot-password' className='login-forgot-password-link'>
             Forgot Password?
