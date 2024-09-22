@@ -10,6 +10,8 @@ import NewEntry from './pages/NewEntry';
 import UserProfile from './pages/UserProfile';
 import Entries from './pages/Entries';
 import EditEntry from './pages/EditEntry';
+import PrivateRoute from './components/PrivateRoute';  // Import the PrivateRoute component
+
 
 function App() {
   return (
@@ -20,11 +22,15 @@ function App() {
         <Route path='/signup' element={<Signup />} />
         <Route path='/contact-us' element={<ContactUs />} />
         <Route path='/forgot-password' element={<ForgotPassword />} />
-        <Route path='/:userId' element={<UserProfile />} />
-        <Route path='/:userId/journals' element={<Journals />} />
-        <Route path='/:userId/:journalId/' element={<Entries />} />
-        <Route path='/:userId/:journalId/new' element={<NewEntry />} />
-        <Route path='/:userId/:journalId/:entryId' element={<EditEntry />} />
+        
+        {/* Protected Routes */}
+        <Route path='/:userId' element={<PrivateRoute />}>
+          <Route path='' element={<UserProfile />} />
+          <Route path='journals' element={<Journals />} />
+          <Route path=':journalId' element={<Entries />} />
+          <Route path=':journalId/new' element={<NewEntry />} />
+          <Route path=':journalId/:entryId' element={<EditEntry />} />
+        </Route>
       </Routes>
     </Router>
   );
