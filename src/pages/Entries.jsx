@@ -15,8 +15,7 @@ const Entries = () => {
 
   const [updateJournal] = useUpdateJournalMutation();
   const [deleteJournal] = useDeleteJournalMutation();
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false); // Modal state
-
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
   /* Search functions */
@@ -26,6 +25,7 @@ const Entries = () => {
     return entryTitle.includes(searchTerm.toLowerCase()) || entryContent.includes(searchTerm.toLowerCase());
   });
 
+  /* Update Journal */
   const handleUpdateJournal = async (updatedJournal) => {
     try {
       await updateJournal({ id: journalId, ...updatedJournal }).unwrap();
@@ -35,18 +35,35 @@ const Entries = () => {
     }
   };
 
+  /* Delete Journal */
   const handleDeleteJournal = async () => {
     try {
       await deleteJournal(journalId).unwrap();
-      navigate('/'); // Navigate to the home or journals page after deletion
+      navigate(`/${userId}/journals`); // Navigate to the home or journals page after deletion
     } catch (error) {
       console.error('Failed to delete journal:', error);
     }
   };
 
-  if (entriesLoading || journalLoading) return <p>Loading...</p>;
-  if (entriesError || journalError) return <p>Error loading entries or journal</p>;
-
+  if (entriesLoading || journalLoading) {
+    return (
+      <p>
+        {entriesLoading && journalLoading && "Loading entries and journal..."}
+        {entriesLoading && !journalLoading && "Loading entries..."}
+        {journalLoading && !entriesLoading && "Loading journal..."}
+      </p>
+    );
+  }
+  
+  if (entriesError || journalError) {
+    return (
+      <p>
+        {entriesError && journalError && "Error loading entries and journal."}
+        {entriesError && !journalError && "Error loading entries."}
+        {journalError && !entriesError && "Error loading journal."}
+      </p>
+    );
+  }
   return (
     <section className='journals-container'>
       <nav className='journals-navbar'>
@@ -58,7 +75,12 @@ const Entries = () => {
             Add Entry
           </button>
           <h2 className='journals-navbar-header'>{journal.title}</h2>
-          <FaCog className="edit-journal-icon" onClick={() => setIsEditModalOpen(true)} style={{ cursor: 'pointer' }} />
+          <FaCog 
+            className="edit-journal-icon" 
+            onClick={() => setIsEditModalOpen(true)} 
+            style={{ cursor: 'pointer' }} 
+            aria-label="Edit journal"
+          />
           <ProfileDropdown />
         </div>
         <input
@@ -66,7 +88,8 @@ const Entries = () => {
           type='text'
           placeholder='Search entries...'
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)} // Update search term
+          onChange={(e) => setSearchTerm(e.target.value)} 
+          aria-label='Search entries'
         />
         <p>{journal.description}</p>
       </nav>
