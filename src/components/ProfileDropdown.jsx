@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FaUser, FaCog, FaSignOutAlt, FaJournalWhills } from 'react-icons/fa';
 import { logOut, selectUserId } from '../features/authSlice';
+import { apiSlice } from '../app/api/apiSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import './ProfileDropdown.css'; // Create the styles for the dropdown
@@ -18,6 +19,7 @@ const ProfileDropdown = ({ onLogout }) => {
 
   const handleLogOutClick = () => {
     dispatch(logOut());
+    dispatch(apiSlice.util.resetApiState());  // Reset RTK Query's API cache
     setIsOpen(false)
     navigate('/');
   };

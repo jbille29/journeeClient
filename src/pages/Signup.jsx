@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useRegisterMutation } from '../app/api/apiSlice';
+import { useRegisterMutation, apiSlice } from '../app/api/apiSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCredentials, selectIsAuthenticated, selectUserId } from '../features/authSlice';
 import { useNavigate, Link } from 'react-router-dom';
@@ -10,8 +10,8 @@ import './FormStyles.css';
 const Signup = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [password, setPassword] = useState('123456');
+  const [confirmPassword, setConfirmPassword] = useState('123456');
   const [errorMessage, setErrorMessage] = useState('');  // Unified error state
 
   const isAuthenticated = useSelector(selectIsAuthenticated);
@@ -47,6 +47,12 @@ const Signup = () => {
         userId: userData._id,
         accessToken: userData.token,
       }));
+       // Reset API cache to ensure no stale data is kept
+      dispatch(apiSlice.util.resetApiState());
+
+      // Invalidate journals cache to ensure fresh data
+      dispatch(apiSlice.util.invalidateTags([{ type: 'Journals', id: userData._id }]));
+
       navigate(`/${userData._id}/journals`);
     } catch (err) {
       if (err.name === 'AbortError') {

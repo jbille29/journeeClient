@@ -87,14 +87,20 @@ export const apiSlice = createApi({
         method: 'PUT',
         body: patch,
       }),
-      invalidatesTags: (result, error, { journal }) => [{ type: 'Entry', id: journal }],
+      invalidatesTags: (result, error, { id, journal }) => [
+        { type: 'Entry', id: journal },
+        { type: 'Entry', id: id },  // Ensure the specific entry is refetched
+      ],
     }),
     deleteEntry: builder.mutation({
       query: ({ id }) => ({
         url: `/entries/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: (result, error, { journal }) => [{ type: 'Entry', id: journal }],
+      invalidatesTags: (result, error, { id, journal }) => [
+        { type: 'Entry', id: journal },
+        { type: 'Entry', id: id },  // Invalidate the deleted entry
+      ],
     }),
   }),
 });

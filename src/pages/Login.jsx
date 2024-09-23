@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaArrowLeft } from 'react-icons/fa';
-import { useLoginMutation } from '../app/api/apiSlice';
+import { useLoginMutation, apiSlice } from '../app/api/apiSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCredentials, selectIsAuthenticated, selectUserId } from '../features/authSlice';
 import './Login.css';
@@ -44,6 +44,9 @@ const Login = () => {
         userId: userData._id,
         accessToken: userData.token,
       }));
+      // Reset API cache to ensure no stale data is kept
+      dispatch(apiSlice.util.resetApiState());
+      dispatch(apiSlice.util.invalidateTags([{ type: 'Journals', id: userData._id }]));
       navigate(`/${userData._id}/journals`);
     } catch (err) {
       if (err.name === 'AbortError') {
