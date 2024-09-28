@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FaUser, FaCog, FaSignOutAlt, FaJournalWhills } from 'react-icons/fa';
 import { logOut, selectUserId } from '../features/authSlice';
-import { apiSlice } from '../app/api/apiSlice';
+import { apiSlice, useLogoutMutation } from '../app/api/apiSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import './ProfileDropdown.css'; // Create the styles for the dropdown
@@ -12,16 +12,25 @@ const ProfileDropdown = ({ onLogout }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const userId = useSelector(selectUserId);
+  const [logout] = useLogoutMutation()
   
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleLogOutClick = () => {
-    dispatch(logOut());
-    dispatch(apiSlice.util.resetApiState());  // Reset RTK Query's API cache
-    setIsOpen(false)
-    navigate('/');
+  const handleLogOutClick = async() => {
+    try {
+      // Call the logout mutation, which will reset the API state and clear the cookie
+      await logout().unwrap();
+
+      // Clear the auth state in Redux
+      dispatch(logOut());
+    
+      setIsOpen(false)
+      navigate('/');
+    } catch (error) {
+      console.error('Failed to log out:', error);
+    }
   };
 
 

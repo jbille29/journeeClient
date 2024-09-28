@@ -30,6 +30,22 @@ export const apiSlice = createApi({
         body: newUser,
       }),
     }),
+    // Add the logout mutation in the apiSlice
+    logout: builder.mutation({
+      query: () => ({
+        url: '/auth/logout',
+        method: 'POST',
+        credentials: 'include',  // Ensure that httpOnly cookies are sent
+      }),
+      async onQueryStarted(arg, { dispatch }) {
+        // Clear the cached data for all queries and mutations
+        dispatch(apiSlice.util.resetApiState()); 
+
+        // Optionally, clear the auth state
+        dispatch(logOut());  // This should be your logOut action from authSlice
+      },
+    }),
+
 
     // Journals Endpoints
     getJournals: builder.query({
@@ -108,6 +124,7 @@ export const apiSlice = createApi({
 export const {
   useLoginMutation,
   useRegisterMutation,
+  useLogoutMutation,
   useGetJournalsQuery,
   useGetJournalByIdQuery,
   useCreateJournalMutation,
